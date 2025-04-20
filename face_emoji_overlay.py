@@ -73,30 +73,15 @@ def draw_rectangle(image,gray,rects,predictor,number):
         # cv2.putText(image,"Face #{}".format(i+1),(x-10,y-10),
         #             cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,255,0),2)       
         
-        emote_img = cv2.imread("/home/gf/Desktop/face_detec/faceDet/emotes/2-1.jpg")
+        emote_img = cv2.imread("emotes/"+str(i+number)+".jpg")
         emote_img = cv2.resize(emote_img,(w,h))
         if image[y:y+h,x:x+w].shape == emote_img.shape:
-            # image[y:y+h,x:x+w] = emote_img
-            height, width, _ = emote_img.shape
-            circle_mask = np.zeros((height, width), dtype=np.uint8)
-            center = (width // 2, height // 2)
-            radius = min(width, height) // 2
-            cv2.circle(circle_mask, center, radius, (255, 255, 255), thickness=-1)
-            circular_image = cv2.bitwise_and(emote_img, emote_img, mask=circle_mask)
+            image[y:y+h,x:x+w] = emote_img
 
-            circular_image = cv2.resize(circular_image,(w,w))
-            x_offset = x  # Dairesel resmin eklenme başlangıç noktası (x koordinatı)
-            y_offset = y  # Dairesel resmin eklenme başlangıç noktası (y koordinatı)
-            for z in range(circular_image.shape[0]):
-                for c in range(circular_image.shape[1]):
-                    if circular_image[z, c][0] != 0 and circular_image[z, c][1] != 0 and circular_image[z, c][2] != 0:
-                        image[z + y_offset, c + x_offset] = circular_image[z, c]
-
-        
         # for (x,y) in shape:
         #     cv2.circle(image,(x,y),1,(0,0,255),-1)
     
-    return image 
+    return image
 
 def webcam(predictor_path):
     detector = dlib.get_frontal_face_detector()
@@ -135,5 +120,5 @@ def webcam(predictor_path):
 
 # image = cv2.imread("/home/gf/Desktop/face_detec/faceDet/1.jpg")
 
-webcam("/home/gf/Desktop/face_detec/faceDet/weight.dat")
+webcam("weight.dat")
 
